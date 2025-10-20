@@ -1,0 +1,686 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuisPana</title>
+    <style>
+        /* Estilos CSS3 */
+        :root {
+            --primary-color: #FF8C00;
+            --secondary-color: #FFA500;
+            --dark-color: #8B4513;
+            --light-color: #FFF8DC;
+            --accent-color: #CD853F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518843875459-f738682238a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--dark-color);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem;
+        }
+        
+        nav ul li {
+            margin: 0 1rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        nav ul li a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .hero {
+            padding: 2rem;
+            margin-top: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .menu-container, .products-container, .testimonials-container, .blog-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .menu-item, .product-item, .testimonial, .blog-post {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            width: 300px;
+        }
+        
+        .menu-item:hover, .product-item:hover, .testimonial:hover, .blog-post:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .menu-item img, .product-item img, .blog-post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .menu-item-content, .product-item-content, .testimonial-content, .blog-content {
+            padding: 1.5rem;
+        }
+        
+        .menu-item h3, .product-item h3, .blog-post h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        .discount {
+            background-color: red;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .add-to-cart {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--dark-color);
+        }
+        
+        .testimonial {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .testimonial img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .rating {
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .cart-icon {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#menu">Menú</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#descuentos">Descuentos</a></li>
+            <li><a href="#reseñas">Reseñas</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Encabezado hero -->
+    <header id="inicio">
+        <div class="hero">
+            <div class="logo">Luis García</div>
+            <h1>Delicias Auténticas Colombianas</h1>
+            <p>Descubre los sabores tradicionales de Colombia preparados con ingredientes frescos y recetas ancestrales que te transportarán directamente a nuestro hermoso país.</p>
+            <a href="#menu" class="btn">Ver Menú</a>
+        </div>
+    </header>
+    
+    <!-- Sección de Menú -->
+    <section id="menu">
+        <h2 class="section-title">Nuestro Menú</h2>
+        <div class="menu-container">
+            <!-- Plato 1 -->
+            <div class="menu-item">
+                <img src="imagenes/bandeja.jpg" alt="Bandeja Paisa">
+                <div class="menu-item-content">
+                    <h3>Bandeja Paisa</h3>
+                    <p>El plato típico antioqueño con frijoles, arroz, chicharrón, carne molida, chorizo, huevo frito, aguacate y arepa.</p>
+                    <div class="price">$25.000 <span class="discount">10% OFF</span></div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Plato 2 -->
+            <div class="menu-item">
+                <img src="imagenes/ajiacosantaderiano.JFIF" alt="Ajiaco">
+                <div class="menu-item-content">
+                    <h3>Ajiaco Santafereño</h3>
+                    <p>Sopa tradicional bogotana con pollo, tres tipos de papa, mazorca, guascas, crema de leche y alcaparras.</p>
+                    <div class="price">$18.000</div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Plato 3 -->
+            <div class="menu-item">
+                <img src="imagenes/sancocho.jfif" alt="Sancocho">
+                <div class="menu-item-content">
+                    <h3>Sancocho de Gallina</h3>
+                    <p>Reconfortante sopa con gallina criolla, yuca, plátano, mazorca, cilantro y ají, acompañada de arroz y aguacate.</p>
+                    <div class="price">$22.000 <span class="discount">15% OFF</span></div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Plato 4 -->
+            <div class="menu-item">
+                <img src="imagenes/lechona.jpg" alt="Lechona">
+                <div class="menu-item-content">
+                    <h3>Lechona Tolimense</h3>
+                    <p>Deliciosa mezcla de carne de cerdo y arvejas cocinadas al horno dentro de una lechona, acompañada de arepa y hogao.</p>
+                    <div class="price">$28.000</div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Productos -->
+    <section id="productos">
+        <h2 class="section-title">Nuestros Productos</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product-item">
+                <img src="imagenes/cafe.jpg" alt="Café Colombiano">
+                <div class="product-item-content">
+                    <h3>Café Colombiano Premium</h3>
+                    <p>Café 100% colombiano tostado medio, grano entero, de la región de Huila.</p>
+                    <div class="price">$15.000/250g</div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Producto 2 -->
+            <div class="product-item">
+                <img src="IMAGENES/chocolate.JFIF" alt="Chocolate Santandereano">
+                <div class="product-item-content">
+                    <h3>Chocolate Santandereano</h3>
+                    <p>Tableta de chocolate artesanal con 70% cacao, ideal para chocolate caliente.</p>
+                    <div class="price">$12.000/200g</div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Producto 3 -->
+            <div class="product-item">
+                <img src="imagenes/arepas.JFIF" alt="Arepas de Maíz">
+                <div class="product-item-content">
+                    <h3>Arepas de Maíz Blanco</h3>
+                    <p>Paquete con 6 arepas listas para asar, hechas con maíz blanco colombiano.</p>
+                    <div class="price">$8.000</div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Descuentos -->
+    <section id="descuentos">
+        <h2 class="section-title">Promociones Especiales</h2>
+        <div class="products-container">
+            <!-- Promoción 1 -->
+            <div class="product-item">
+                <img src="imagenes/comidafamiliar.JFIF" alt="Combo Familia}">
+                <div class="product-item-content">
+                    <h3>Combo Familiar</h3>
+                    <p>2 Bandejas Paisa + 2 Ajiacos + 4 bebidas + Postre. Perfecto para compartir en familia.</p>
+                    <div class="price">$75.000 <span class="discount">25% OFF</span></div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Promoción 2 -->
+            <div class="product-item">
+                <img src="IMAGENES/comidafamiliar2.JFIF" alt="Almuerzo Ejecutivo">
+                <div class="product-item-content">
+                    <h3>Almuerzo Ejecutivo</h3>
+                    <p>Sopa del día + plato principal + jugo natural + postre. De lunes a viernes de 12pm a 3pm.</p>
+                    <div class="price">$15.000 <span class="discount">30% OFF</span></div>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Reseñas -->
+    <section id="reseñas">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <div class="testimonials-container">
+            <!-- Reseña 1 -->
+            <div class="testimonial">
+                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Cliente 1">
+                <div class="rating">★★★★★</div>
+                <p>"La mejor bandeja paisa que he probado fuera de Colombia. Los sabores son auténticos y los ingredientes frescos. ¡Totalmente recomendado!"</p>
+                <h4>María González</h4>
+            </div>
+            
+            <!-- Reseña 2 -->
+            <div class="testimonial">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Cliente 2">
+                <div class="rating">★★★★☆</div>
+                <p>"El ajiaco es espectacular, me recordó al que preparaba mi abuela. El servicio es excelente y los precios muy razonables."</p>
+                <h4>Carlos Martínez</h4>
+            </div>
+            
+            <!-- Reseña 3 -->
+            <div class="testimonial">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente 3">
+                <div class="rating">★★★★★</div>
+                <p>"Compré el combo familiar para una reunión y todos quedaron encantados. Las porciones son generosas y el sabor inigualable."</p>
+                <h4>Ana Rodríguez</h4>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Blog -->
+    <section id="blog">
+        <h2 class="section-title">Blog y Recetas</h2>
+        <div class="blog-container">
+            <!-- Entrada 1 -->
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Historia Bandeja Paisa">
+                <div class="blog-content">
+                    <h3>La historia detrás de la Bandeja Paisa</h3>
+                    <p>Descubre los orígenes de este icónico plato colombiano y cómo se convirtió en símbolo de la región antioqueña.</p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+            
+            <!-- Entrada 2 -->
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Receta Arepas">
+                <div class="blog-content">
+                    <h3>Receta: Arepas colombianas caseras</h3>
+                    <p>Aprende a preparar las auténticas arepas colombianas como las hacían nuestras abuelas, paso a paso.</p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+            
+            <!-- Entrada 3 -->
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Beneficios del café">
+                <div class="blog-content">
+                    <h3>Los beneficios del café colombiano</h3>
+                    <p>Conoce por qué nuestro café es considerado uno de los mejores del mundo y sus beneficios para la salud.</p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Contacto -->
+    <section id="contacto">
+        <h2 class="section-title">Contáctanos</h2>
+        <div class="contact-form">
+            <form>
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensaje:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn">Enviar Mensaje</button>
+            </form>
+        </div>
+        <div style="margin-top: 2rem;">
+            <p>También puedes contactarnos directamente:</p>
+            <p><strong>Teléfono:</strong> 3166619378</p>
+            <p><strong>Correo:</strong> luisgarcia2007@gmail.com</p>
+            <p><strong>Horario:</strong> Lunes a Domingo - 10am a 10pm</p>
+        </div>
+    </section>
+    
+    <!-- Carrito de compras -->
+    <div class="cart-icon">
+        🛒
+        <div class="cart-count">0</div>
+    </div>
+    
+    <!-- Pie de página -->
+    <footer>
+        <div class="logo">Luis García</div>
+        <p>Delicias Colombianas Auténticas</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook">f</i></a>
+            <a href="#"><i class="fab fa-instagram">i</i></a>
+            <a href="#"><i class="fab fa-whatsapp">w</i></a>
+        </div>
+        <p>&copy; 2025 Luis García Comidas Colombianas. Todos los derechos reservados:LUIS GARCIA..</p>
+    </footer>
+    
+    <script>
+        // JavaScript básico para funcionalidades
+        document.addEventListener('DOMContentLoaded', function() {
+            // Contador del carrito
+            let cartCount = 0;
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCountElement = document.querySelector('.cart-count');
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    cartCount++;
+                    cartCountElement.textContent = cartCount;
+                    
+                    // Animación al añadir al carrito
+                    this.textContent = '✓ Añadido';
+                    this.style.backgroundColor = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        this.textContent = 'Añadir al carrito';
+                        this.style.backgroundColor = '';
+                    }, 2000);
+                });
+            });
+            
+            // Smooth scrolling para los enlaces del menú
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 60,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+## Características del sitio web:
+
+1. **Diseño responsive** que se adapta a móviles y tablets
+2. **Efectos visuales modernos** con CSS3:
+   - Transiciones suaves
+   - Animaciones al cargar
+   - Efectos hover en botones y tarjetas
+   - Degradados y sombras
+
+3. **Secciones completas**:
+   - Hero section con imagen de fondo
+   - Menú de comidas con imágenes
+   - Productos para venta
+   - Promociones y descuentos
+   - Testimonios de clientes
+   - Blog con recetas y consejos
+   - Formulario de contacto
+
+4. **Funcionalidades**:
+   - Carrito de compras con contador
+   - Navegación suave entre secciones
+   - Efectos al añadir productos al carrito
+
+5. **Información de contacto**:
+   - Nombre: Luis García
+   - Teléfono: 3166619378
+   - Correo: luisgarcia2007@gmail.com
+
+El diseño utiliza una paleta de colores cálidos que evocan la gastronomía colombiana, con imágenes atractivas de los platos típicos y una estructura clara que guía al usuario a través de todas las secciones.
